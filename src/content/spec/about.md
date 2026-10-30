@@ -18,13 +18,13 @@
 
 ## 关于本站
 
-本站使用 [Astro](https://astro.build/) 构建，主题基于 [Firefly](https://github.com/CuteLeaf/Firefly)，托管在 Cloudflare 上，源码放在 GitHub。
+本站使用 [Astro](https://astro.build/) 构建，主题基于 [Firefly](https://github.com/CuteLeaf/Firefly)。
 
 首页的插画来自公开的二次元图片接口，仅作个人博客装饰使用；如有侵权，请联系我删除。
 
 ## 联系我
 
 - GitHub：[@huoji111](https://github.com/huoji111)
-- 也可以在文章下方留言（如果评论功能已开启）
+- 也可以在文章下方留言。
 
 谢谢你的来访。希望这里有一句话，值得你停一下。

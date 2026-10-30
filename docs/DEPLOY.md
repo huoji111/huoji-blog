@@ -84,6 +84,14 @@ npx wrangler deploy
 **页面样式正常但图片 404**
 检查 `src/assets/images/` 下的壁纸命名是否与 `src/config/backgroundWallpaper.ts` 中的路径一致。
 
-**想开启评论**
-编辑 `src/config/commentConfig.ts`，把 `type` 改成 `giscus`，并按 <https://giscus.app> 的指引填写
-仓库、分类等信息（需要仓库是公开的，并安装 giscus App）。
+**开启评论（Giscus）**
+评论已启用，但还差仓库的 `repoId` 与 `categoryId`。仓库建好后：
+
+1. 仓库 **Settings → General → Features**，勾选 **Discussions**。
+2. 在 **Discussions → Categories** 新建分类 `Comments`，类型选 **Announcements**。
+3. 安装 giscus App：<https://github.com/apps/giscus>，授权到该仓库。
+4. 打开 <https://giscus.app/zh-CN>，填入 `huoji111/huoji-blog`，分类选 `Comments`，
+   复制页面给出的 `data-repo-id` 与 `data-category-id`。
+5. 填进 `src/config/commentConfig.ts` 的 `repoId` 和 `categoryId`，重新构建即可。
+
+映射方式用的是 `pathname`，文章改标题不会丢评论。

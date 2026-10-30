@@ -1,6 +1,5 @@
 ---
 import { Icon } from "astro-icon/components";
-import ImageWrapper from "@/components/common/ImageWrapper.astro";
 import { profileConfig } from "@/config/profileConfig";
 import { encodeMailto, MAILTO_ONCLICK_SCRIPT } from "@/utils/email-utils";
 import { url } from "@/utils/url-utils";
@@ -29,15 +28,31 @@ const className = Astro.props.class;
         class="transition opacity-0 scale-90 group-hover:scale-100 group-hover:opacity-100 text-white text-5xl"
       />
     </div>
-    <ImageWrapper
-      src={profileConfig.avatar || ""}
-      alt="Profile Image of the Author"
-      class="profile-avatar-image mx-auto lg:w-full h-full lg:mt-0"
-      loading="eager"
-      fetchpriority="high"
-      widths={[350]}
-      sizes="350px"
-    />
+    <div
+      class="profile-avatar-image relative mx-auto lg:w-full h-full lg:mt-0 overflow-hidden"
+      data-avatar-pool={JSON.stringify(profileConfig.avatarPool ?? [])}
+    >
+      <img
+        src={profileConfig.avatarPool?.[0] ?? url("/assets/images/avatars/avatar-1.webp")}
+        alt="Profile Image of the Author"
+        class="w-full h-full object-cover"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+    <script is:inline>
+      (() => {
+        const box = document.currentScript?.previousElementSibling;
+        const img = box?.querySelector("img");
+        if (!box || !img) return;
+        try {
+          const pool = JSON.parse(box.dataset.avatarPool || "[]");
+          if (pool.length > 1) {
+            img.src = pool[Math.floor(Math.random() * pool.length)];
+          }
+        } catch {}
+      })();
+    </script>
   </a>
   <div class="px-2">
     <div
