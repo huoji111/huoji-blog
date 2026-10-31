@@ -86,7 +86,7 @@ const textData = Array.isArray(text) ? JSON.stringify(text) : text;
           typeof data?.content === "string" ? data.content.trim() : "";
         if (!content) return;
         const author = data?.author ? ` · ${data.author}` : "";
-        this.setTexts([ ...this.baseTexts, `${content}${author}` ]);
+        this.setTexts([ `${content}${author}`, ...this.baseTexts ]);
       } catch {
         // 网络失败时保留配置里的静态副标题
       }
