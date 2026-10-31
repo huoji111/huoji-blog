@@ -58,11 +58,11 @@ export const commentConfig: CommentConfig = {
 		// 设置 Giscus 评论系统仓库
 		repo: "huoji111/huoji-blog",
 		// 设置 Giscus 评论系统仓库ID
-		repoId: "REPLACE_ME_REPO_ID",
+		repoId: "R_kgDOVdyJ9A",
 		// 设置 Giscus 评论系统分类（需为 Announcements 类型）
-		category: "Comments",
+		category: "Announcements",
 		// 获取 Giscus 评论系统分类ID
-		categoryId: "REPLACE_ME_CATEGORY_ID",
+		categoryId: "DIC_kwDOVdyJ9M4DKDrK",
 		// 获取 Giscus 评论系统映射方式
 		mapping: "pathname",
 		// 获取 Giscus 评论系统严格模式

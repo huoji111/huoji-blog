@@ -92,7 +92,11 @@ async function getLocalImageInfo(
  * 固定用 profileConfig.avatar + basePath=""（相对 src/）。
  */
 export async function getAuthorAvatarUrl(): Promise<string | null> {
-	return toAbsoluteImageUrl(profileConfig.avatar, "", siteConfig.site_url);
+	const avatar = profileConfig.avatar;
+	if (avatar?.startsWith("/") || /^https?:\/\//.test(avatar)) {
+		return new URL(avatar, siteConfig.site_url).toString();
+	}
+	return toAbsoluteImageUrl(avatar, "", siteConfig.site_url);
 }
 
 // 解析 favicon 的 sizes（如 "192x192"）为宽高
