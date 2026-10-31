@@ -112,8 +112,7 @@ export const siteConfig: SiteConfig = {
 		logo: {
 			type: "image",
 			alt: "或记",
-			value: "assets/images/logo/logo-light.png",
-			valueDark: "assets/images/logo/logo-dark.png",
+			value: "/assets/images/avatar-fixed.webp",
 		},
 		// 导航栏标题
 		title: "或记的博客",
@@ -346,14 +345,6 @@ export const siteConfig: SiteConfig = {
 			"*.myanimelist.net",
 			"*.vndb.org",
 		],
-	},
-
-	// ── 订阅 (RSS / Atom) 配置 ──────────────────────────────────
-	feed: {
-		// 订阅条目内容模式：
-		// - "full": 包含文章正文全文（默认）
-		// - "summary": 仅包含文章摘要/描述，不含正文，体积更小
-		contentMode: "full",
 	},
 
 	// 站点语言，在本配置文件顶部SITE_LANG定义

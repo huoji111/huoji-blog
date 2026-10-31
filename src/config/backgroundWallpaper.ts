@@ -123,11 +123,6 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 					icon: "material-symbols:person",
 					url: "/about/",
 				},
-				{
-					name: "RSS",
-					icon: "fa7-solid:rss",
-					url: "/rss/",
-				},
 			],
 		},
 		// 壁纸轮播配置，横幅壁纸和全屏壁纸共享，仅在配置多张图片时生效
