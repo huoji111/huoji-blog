@@ -1,4 +1,10 @@
 import type { ProfileConfig } from "../types/profileConfig";
+import wallpaperCredits from "@/data/wallpaper-credits.json";
+
+type WallpaperCredit = { avatar: string };
+const avatarFromApi = ((wallpaperCredits.items ?? []) as WallpaperCredit[]).map(
+	(item) => `/assets/images/avatars/${item.avatar}`,
+);
 
 export const profileConfig: ProfileConfig = {
 	// 头像
@@ -8,15 +14,17 @@ export const profileConfig: ProfileConfig = {
 	// 3. 远程 URL："https://example.com/avatar.jpg"
 	avatar: "assets/images/avatar.avif",
 
-	// 头像轮换池：每次刷新随机选一张
-	avatarPool: [
-		"/assets/images/avatars/avatar-1.webp",
-		"/assets/images/avatars/avatar-2.webp",
-		"/assets/images/avatars/avatar-3.webp",
-		"/assets/images/avatars/avatar-4.webp",
-		"/assets/images/avatars/avatar-5.webp",
-		"/assets/images/avatars/avatar-6.webp",
-	],
+	// 头像轮换池：每次刷新随机选一张（由 API 生成）
+	avatarPool: avatarFromApi.length
+		? avatarFromApi
+		: [
+				"/assets/images/avatars/avatar-1.webp",
+				"/assets/images/avatars/avatar-2.webp",
+				"/assets/images/avatars/avatar-3.webp",
+				"/assets/images/avatars/avatar-4.webp",
+				"/assets/images/avatars/avatar-5.webp",
+				"/assets/images/avatars/avatar-6.webp",
+			],
 
 	// 名字
 	name: "或记",

@@ -1,6 +1,9 @@
 # build output
 dist/
 
+# wallpaper API cache
+.cache/
+
 # generated vndb covers
 public/vndb-covers/
 

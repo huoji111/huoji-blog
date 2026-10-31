@@ -1,4 +1,10 @@
 import type { BackgroundWallpaperConfig } from "@/types/backgroundWallpaper";
+import wallpaperCredits from "@/data/wallpaper-credits.json";
+
+type WallpaperCredit = { desktop: string; mobile: string; avatar: string };
+const wallpaperItems = (wallpaperCredits.items ?? []) as WallpaperCredit[];
+const desktopFromApi = wallpaperItems.map((item) => `assets/images/DesktopWallpaper/${item.desktop}`);
+const mobileFromApi = wallpaperItems.map((item) => `assets/images/MobileWallpaper/${item.mobile}`);
 
 export const backgroundWallpaper: BackgroundWallpaperConfig = {
 	// 壁纸模式："banner" 横幅壁纸，"fullscreen" 全屏壁纸，"overlay" 覆盖透明，"none" 纯色背景无壁纸
@@ -37,25 +43,29 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 	 */
 	src: {
 		// 桌面背景图片（支持单张或多张随机）
-		// desktop: "assets/images/DesktopWallpaper/d1.avif",
-		desktop: [
-			"assets/images/DesktopWallpaper/h1.avif",
-			"assets/images/DesktopWallpaper/h2.avif",
-			"assets/images/DesktopWallpaper/h3.avif",
-			"assets/images/DesktopWallpaper/h4.avif",
-			"assets/images/DesktopWallpaper/h5.avif",
-			"assets/images/DesktopWallpaper/h6.avif",
-		],
+		// 由 scripts/fetch-pixiv-wallpapers.mjs 调用 Lolicon API（Pixiv）生成
+		desktop: desktopFromApi.length
+			? desktopFromApi
+			: [
+					"assets/images/DesktopWallpaper/h1.avif",
+					"assets/images/DesktopWallpaper/h2.avif",
+					"assets/images/DesktopWallpaper/h3.avif",
+					"assets/images/DesktopWallpaper/h4.avif",
+					"assets/images/DesktopWallpaper/h5.avif",
+					"assets/images/DesktopWallpaper/h6.avif",
+				],
 		// 移动背景图片（支持单张或多张随机）
 		// mobile: "assets/images/MobileWallpaper/m1.avif",
-		mobile: [
-			"assets/images/MobileWallpaper/p1.avif",
-			"assets/images/MobileWallpaper/p2.avif",
-			"assets/images/MobileWallpaper/p3.avif",
-			"assets/images/MobileWallpaper/p4.avif",
-			"assets/images/MobileWallpaper/p5.avif",
-			"assets/images/MobileWallpaper/p6.avif",
-		],
+		mobile: mobileFromApi.length
+			? mobileFromApi
+			: [
+					"assets/images/MobileWallpaper/p1.avif",
+					"assets/images/MobileWallpaper/p2.avif",
+					"assets/images/MobileWallpaper/p3.avif",
+					"assets/images/MobileWallpaper/p4.avif",
+					"assets/images/MobileWallpaper/p5.avif",
+					"assets/images/MobileWallpaper/p6.avif",
+				],
 		// 背景视频播放地址
 		// 支持单个视频路径（字符串）或多个视频循环（数组，参考上面壁纸配置）
 		// 支持远程视频URL，本地视频请放在 public/assets/videos/ 目录下
