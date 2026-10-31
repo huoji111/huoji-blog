@@ -1,53 +1,47 @@
 ---
+import CreditCard from "@/components/CreditCard.astro";
 import MainGridLayout from "@/layouts/MainGridLayout.astro";
 import credits from "@/data/wallpaper-credits.json";
 
 type CreditItem = {
 	index: number;
-	pid: number;
-	title: string;
-	author: string;
+	id: number;
 	tags: string[];
-	pageUrl: string;
+	width: number;
+	height: number;
+	postUrl: string;
+	sourceUrl: string;
 	imageUrl: string;
+	sourceHost: string;
+	pixivUrl: string;
 };
 
-const items = (credits.items ?? []) as CreditItem[];
+const desktop = (credits.desktop ?? []) as CreditItem[];
+const mobile = (credits.mobile ?? []) as CreditItem[];
 ---
 
-<MainGridLayout title="图片来源" description="本站壁纸、头像与封面所用 Pixiv 作品的来源说明">
+<MainGridLayout title="图片来源" description="本站壁纸、头像与封面所用插画的来源说明">
 	<div class="card-base px-6 py-6 sm:px-9">
 		<h1 class="text-2xl font-bold text-neutral-900 dark:text-neutral-100">图片来源</h1>
 		<p class="mt-3 text-sm leading-6 text-neutral-600 dark:text-neutral-300">
-			本站首页壁纸、头像与文章封面来自 Pixiv 公开作品（已过滤 R18 与 AI 作品），通过
-			<a class="text-(--primary) hover:underline" href="https://api.lolicon.app/" target="_blank" rel="noopener noreferrer">Lolicon API</a>
-			获取，并本地裁切压缩。作品版权归原作者所有，仅作个人博客装饰；如作者提出异议，会立即移除。
+			本站按用途分别选择横图与竖图：桌面壁纸使用横向作品，手机壁纸与头像使用纵向作品，文章封面从桌面壁纸裁切。
+			图片通过
+			<a class="text-(--primary) hover:underline" href="https://safebooru.org/" target="_blank" rel="noopener noreferrer">Safebooru API</a>
+			按尺寸与标签筛选（已过滤敏感标签），并保留作品页、原始出处与原图链接。作品版权归原作者所有，仅作个人博客装饰；如作者提出异议，会立即移除。
 		</p>
 
-		<div class="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
-			{
-				items.map((item) => (
-					<div class="rounded-xl border border-black/5 bg-black/[0.02] p-4 dark:border-white/10 dark:bg-white/[0.03]">
-						<div class="flex items-baseline justify-between gap-3">
-							<span class="font-bold text-neutral-900 dark:text-neutral-100">{item.title || "无题"}</span>
-							<span class="text-xs text-neutral-500 dark:text-neutral-400">Pixiv #{item.pid}</span>
-						</div>
-						<div class="mt-1 text-xs text-neutral-500 dark:text-neutral-400">{item.author}</div>
-						<div class="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-xs">
-							<a class="text-(--primary) hover:underline" href={item.pageUrl} target="_blank" rel="noopener noreferrer">
-								作品页
-							</a>
-							<a class="text-(--primary) hover:underline" href={item.imageUrl} target="_blank" rel="noopener noreferrer">
-								原图
-							</a>
-						</div>
-					</div>
-				))
-			}
+		<h2 class="mt-8 text-lg font-bold text-neutral-900 dark:text-neutral-100">桌面壁纸 · 横向</h2>
+		<div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+			{desktop.map((item) => <CreditCard item={item} kind="横向" />)}
+		</div>
+
+		<h2 class="mt-8 text-lg font-bold text-neutral-900 dark:text-neutral-100">手机壁纸与头像 · 纵向</h2>
+		<div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+			{mobile.map((item) => <CreditCard item={item} kind="纵向" />)}
 		</div>
 
 		<p class="mt-6 text-xs leading-5 text-neutral-500 dark:text-neutral-400">
-			图片经裁切、压缩后用于本站背景与头像，未用于商业用途。来源为 Pixiv 作品页，作者与标题由 Lolicon API 返回。
+			图片经裁切、压缩后用于本站背景与头像，未用于商业用途。尺寸、标签、作品页与原始出处均由 Safebooru API 返回；原始出处可能指向 Pixiv、X 等原作者页面。
 		</p>
 	</div>
 </MainGridLayout>

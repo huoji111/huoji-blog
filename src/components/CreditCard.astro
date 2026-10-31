@@ -1,0 +1,57 @@
+---
+interface CreditItem {
+	index: number;
+	id: number;
+	width: number;
+	height: number;
+	postUrl: string;
+	sourceUrl: string;
+	imageUrl: string;
+	sourceHost: string;
+	pixivUrl: string;
+	tags: string[];
+}
+
+interface Props {
+	item: CreditItem;
+	kind: string;
+}
+
+const { item, kind } = Astro.props;
+const skip = new Set([
+	"1girl",
+	"solo",
+	"landscape",
+	"highres",
+	"absurdres",
+	"commentary",
+	"commentary_request",
+	"english_commentary",
+	"translated",
+	"wide_shot",
+	"very_wide_shot",
+]);
+const title = item.tags.filter((tag) => !skip.has(tag)).slice(0, 2).join(" · ") || `Safebooru #${item.id}`;
+---
+
+<div class="rounded-xl border border-black/5 bg-black/[0.02] p-4 dark:border-white/10 dark:bg-white/[0.03]">
+	<div class="flex items-baseline justify-between gap-3">
+		<span class="truncate font-bold text-neutral-900 dark:text-neutral-100">{title}</span>
+		<span class="shrink-0 text-xs text-neutral-500 dark:text-neutral-400">#{item.id}</span>
+	</div>
+	<div class="mt-1 flex items-baseline justify-between gap-3 text-xs text-neutral-500 dark:text-neutral-400">
+		<span class="truncate">{item.sourceHost}</span>
+		<span class="shrink-0">{item.width}×{item.height}</span>
+	</div>
+	<div class="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-xs">
+		<a class="text-(--primary) hover:underline" href={item.postUrl} target="_blank" rel="noopener noreferrer">作品页</a>
+		{item.sourceUrl && (
+			<a class="text-(--primary) hover:underline" href={item.sourceUrl} target="_blank" rel="noopener noreferrer">原始出处</a>
+		)}
+		{item.pixivUrl && (
+			<a class="text-(--primary) hover:underline" href={item.pixivUrl} target="_blank" rel="noopener noreferrer">Pixiv</a>
+		)}
+		<a class="text-(--primary) hover:underline" href={item.imageUrl} target="_blank" rel="noopener noreferrer">原图</a>
+		<span class="text-neutral-400 dark:text-neutral-500">{kind}</span>
+	</div>
+</div>

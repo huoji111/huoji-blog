@@ -20,7 +20,7 @@
 
 本站使用 [Astro](https://astro.build/) 构建，主题基于 [Firefly](https://github.com/CuteLeaf/Firefly)。
 
-首页的壁纸、头像与文章封面来自 Pixiv 公开作品（非 R18），经 Lolicon API 获取并本地裁切压缩；版权归原作者所有，仅作个人博客装饰。完整来源见[图片来源](/credits/)。
+首页的壁纸、头像与文章封面通过 Safebooru API 按横竖尺寸筛选，并保留作品页与原始出处；版权归原作者所有，仅作个人博客装饰。完整来源见[图片来源](/credits/)。
 
 ## 联系我
 

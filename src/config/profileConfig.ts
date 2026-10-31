@@ -1,8 +1,8 @@
 import type { ProfileConfig } from "../types/profileConfig";
 import wallpaperCredits from "@/data/wallpaper-credits.json";
 
-type WallpaperCredit = { avatar: string };
-const avatarFromApi = ((wallpaperCredits.items ?? []) as WallpaperCredit[]).map(
+type WallpaperItem = { avatar: string };
+const avatarFromApi = ((wallpaperCredits.mobile ?? []) as WallpaperItem[]).map(
 	(item) => `/assets/images/avatars/${item.avatar}`,
 );
 

@@ -1,10 +1,11 @@
 import type { BackgroundWallpaperConfig } from "@/types/backgroundWallpaper";
 import wallpaperCredits from "@/data/wallpaper-credits.json";
 
-type WallpaperCredit = { desktop: string; mobile: string; avatar: string };
-const wallpaperItems = (wallpaperCredits.items ?? []) as WallpaperCredit[];
-const desktopFromApi = wallpaperItems.map((item) => `assets/images/DesktopWallpaper/${item.desktop}`);
-const mobileFromApi = wallpaperItems.map((item) => `assets/images/MobileWallpaper/${item.mobile}`);
+type WallpaperItem = { file: string };
+const desktopItems = (wallpaperCredits.desktop ?? []) as WallpaperItem[];
+const mobileItems = (wallpaperCredits.mobile ?? []) as WallpaperItem[];
+const desktopFromApi = desktopItems.map((item) => `assets/images/DesktopWallpaper/${item.file}`);
+const mobileFromApi = mobileItems.map((item) => `assets/images/MobileWallpaper/${item.file}`);
 
 export const backgroundWallpaper: BackgroundWallpaperConfig = {
 	// 壁纸模式："banner" 横幅壁纸，"fullscreen" 全屏壁纸，"overlay" 覆盖透明，"none" 纯色背景无壁纸
