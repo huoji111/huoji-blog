@@ -48,7 +48,7 @@ export const siteConfig: SiteConfig = {
 	subtitle: "把读过的、写过的、想明白的，都记在这里。",
 
 	// 站点 URL
-	site_url: "https://huoji-blog.pages.dev",
+	site_url: "https://huoji.qzz.io",
 
 	// 站点描述
 	description:
@@ -89,12 +89,16 @@ export const siteConfig: SiteConfig = {
 	// 如果启用了OpenGraph图片功能，数组中需要包含png格式的favicon图标
 	favicon: [
 		{
+			src: "/favicon/avatar-192.png",
+			sizes: "192x192",
+		},
+		{
 			// 图标文件路径
 			src: "/favicon/avatar-32.png",
 			// 可选，指定主题 'light' | 'dark'
 			// theme: "light",
 			// 可选，图标大小
-			// sizes: "32x32",
+			sizes: "32x32",
 		},
 	],
 
@@ -130,7 +134,7 @@ export const siteConfig: SiteConfig = {
 	},
 
 	// 站点开始日期，用于统计运行天数
-	siteStartDate: "2026-10-29",
+	siteStartDate: "2026-10-31",
 
 	// 站点时区（IANA 时区字符串），用于格式化bangumi、rss里的构建日期时间等等..
 	// 示例："Asia/Shanghai", "UTC", 如果为空，则按照构建服务器的时区进行时区转换

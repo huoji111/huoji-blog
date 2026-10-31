@@ -95,6 +95,8 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 			],
 			// 主页横幅副标题字体大小
 			subtitleSize: "1.5rem",
+			// 古诗词 API（今日诗词），返回 content/author/origin，每次刷新追加一句
+			poetryApi: "https://v1.jinrishici.com/all.json",
 			typewriter: {
 				// 是否启用打字机效果
 				// 打字机开启 → 循环显示所有副标题

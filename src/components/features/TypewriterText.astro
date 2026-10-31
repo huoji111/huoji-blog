@@ -5,6 +5,7 @@ export interface Props {
 	deleteSpeed?: number;
 	pauseTime?: number;
 	class?: string;
+	poetryApi?: string;
 }
 
 const {
@@ -13,6 +14,7 @@ const {
 	deleteSpeed = 50,
 	pauseTime = 2000,
 	class: className = "",
+	poetryApi,
 } = Astro.props;
 const textData = Array.isArray(text) ? JSON.stringify(text) : text;
 ---
@@ -22,12 +24,14 @@ const textData = Array.isArray(text) ? JSON.stringify(text) : text;
   data-text={textData}
   data-speed={speed}
   data-delete-speed={deleteSpeed}
-  data-pause-time={pauseTime}></span>
+  data-pause-time={pauseTime}
+  data-poetry-api={poetryApi}></span>
 
 <script>
   class TypewriterEffect {
     private element: HTMLElement;
     private texts: string[];
+    private baseTexts: string[];
     private currentTextIndex: number = 0;
     private speed: number;
     private deleteSpeed: number;
@@ -35,6 +39,8 @@ const textData = Array.isArray(text) ? JSON.stringify(text) : text;
     private currentIndex: number = 0;
     private isDeleting: boolean = false;
     private timeoutId: number | null = null;
+    private poetryApi: string = "";
+    private poetryLoaded: boolean = false;
 
     constructor(element: HTMLElement) {
       this.element = element;
@@ -47,6 +53,8 @@ const textData = Array.isArray(text) ? JSON.stringify(text) : text;
       } catch {
         this.texts = [textData];
       }
+      this.baseTexts = [ ...this.texts ];
+      this.poetryApi = element.dataset.poetryApi || "";
 
       this.speed = parseInt(element.dataset.speed || "100");
       this.deleteSpeed = parseInt(element.dataset.deleteSpeed || "50");
@@ -58,6 +66,41 @@ const textData = Array.isArray(text) ? JSON.stringify(text) : text;
       } else {
         this.start();
       }
+
+      if (this.poetryApi) {
+        void this.loadPoetry(this.poetryApi);
+      }
+    }
+
+    private async loadPoetry(url: string) {
+      if (this.poetryLoaded) return;
+      this.poetryLoaded = true;
+      try {
+        const sep = url.includes("?") ? "&" : "?";
+        const res = await fetch(`${url}${sep}_=${Date.now()}`, {
+          cache: "no-store",
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        const content =
+          typeof data?.content === "string" ? data.content.trim() : "";
+        if (!content) return;
+        const author = data?.author ? ` · ${data.author}` : "";
+        this.setTexts([ ...this.baseTexts, `${content}${author}` ]);
+      } catch {
+        // 网络失败时保留配置里的静态副标题
+      }
+    }
+
+    public setTexts(texts: string[]) {
+      if (!texts.length) return;
+      this.destroy();
+      this.texts = texts;
+      this.currentTextIndex = 0;
+      this.currentIndex = 0;
+      this.isDeleting = false;
+      this.element.textContent = "";
+      this.start();
     }
 
     private isTypewriterEnabled(): boolean {
@@ -131,6 +174,7 @@ const textData = Array.isArray(text) ? JSON.stringify(text) : text;
     public destroy() {
       if (this.timeoutId) {
         clearTimeout(this.timeoutId);
+        this.timeoutId = null;
       }
     }
 
