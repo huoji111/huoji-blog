@@ -1,13 +1,16 @@
 ---
 import { getLqipProps } from "@/utils/lqip-utils";
+import type { GalleryPhotoCredit } from "@/utils/gallery-utils";
 
 interface Props {
 	src: string;
 	albumId: string;
 	alt?: string;
+	credit?: GalleryPhotoCredit;
 }
 
-const { src, albumId, alt = "" } = Astro.props;
+const { src, albumId, alt = "", credit } = Astro.props;
+const photoAlt = alt || credit?.title || "";
 
 // LQIP 渐变占位
 const lqipProps = getLqipProps(src, undefined, true);
@@ -18,15 +21,38 @@ const lqipProps = getLqipProps(src, undefined, true);
     data-fancybox={`gallery-${albumId}`}
     data-src={src}
     data-type="image"
+    data-caption={credit?.title}
     class="block rounded-xl overflow-hidden relative group cursor-pointer"
   >
     <div class="lqip-placeholder absolute inset-0 pointer-events-none" style={lqipProps.style} aria-hidden="true"></div>
     <img
       src={src}
-      alt={alt}
+      alt={photoAlt}
       loading="lazy"
       decoding="async"
       class="w-full h-auto object-cover opacity-0 transition-all duration-500 ease-out group-hover:scale-105"
     />
   </div>
+  {credit && (
+    <div class="px-2.5 pb-2.5 pt-1.5 text-[11px] leading-5 text-neutral-500 dark:text-neutral-400">
+      <div class="flex items-baseline justify-between gap-2">
+        <span class="truncate">{credit.title}</span>
+        {credit.sourceHost && <span class="shrink-0">{credit.sourceHost}</span>}
+      </div>
+      <div class="mt-0.5 flex flex-wrap gap-x-2 gap-y-0.5">
+        {credit.postUrl && (
+          <a class="text-(--primary) hover:underline" href={credit.postUrl} target="_blank" rel="noopener noreferrer">作品页</a>
+        )}
+        {credit.sourceUrl && (
+          <a class="text-(--primary) hover:underline" href={credit.sourceUrl} target="_blank" rel="noopener noreferrer">原始出处</a>
+        )}
+        {credit.pixivUrl && (
+          <a class="text-(--primary) hover:underline" href={credit.pixivUrl} target="_blank" rel="noopener noreferrer">Pixiv</a>
+        )}
+        {credit.imageUrl && (
+          <a class="text-(--primary) hover:underline" href={credit.imageUrl} target="_blank" rel="noopener noreferrer">原图</a>
+        )}
+      </div>
+    </div>
+  )}
 </div>

@@ -59,3 +59,42 @@ export function getAlbumCover(album: GalleryAlbum, photos: string[]): string {
 	const coverFile = photos.find((p) => /\/cover\./i.test(p));
 	return coverFile || photos[0] || "";
 }
+
+export type GalleryPhotoCredit = {
+	file: string;
+	title: string;
+	id?: number;
+	width?: number;
+	height?: number;
+	sourceHost?: string;
+	postUrl?: string;
+	sourceUrl?: string;
+	pixivUrl?: string;
+	imageUrl?: string;
+	tags?: string[];
+};
+
+/**
+ * 读取相册目录下的 credits.json，按文件名返回出处信息。
+ * 没有 credits.json 的相册会返回空对象。
+ */
+export function getAlbumCredits(
+	albumId: string,
+): Record<string, GalleryPhotoCredit> {
+	const file = path.join(
+		process.cwd(),
+		"public",
+		"gallery",
+		albumId,
+		"credits.json",
+	);
+	if (!fs.existsSync(file)) return {};
+	try {
+		const items = JSON.parse(
+			fs.readFileSync(file, "utf-8"),
+		) as GalleryPhotoCredit[];
+		return Object.fromEntries(items.map((item) => [item.file, item]));
+	} catch {
+		return {};
+	}
+}

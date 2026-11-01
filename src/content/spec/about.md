@@ -25,6 +25,7 @@
 ## 联系我
 
 - GitHub：[@huoji111](https://github.com/huoji111)
-- 也可以在文章下方留言。
+- 邮箱反馈：[huoji@huoji111.qzz.io](mailto:huoji@huoji111.qzz.io)
+- 也可以在文章下方留言，或到[留言板](/guestbook/)说两句。
 
 谢谢你的来访。希望这里有一句话，值得你停一下。

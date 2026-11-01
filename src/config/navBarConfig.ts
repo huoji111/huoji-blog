@@ -33,6 +33,17 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		],
 	});
 
+	// 留言
+	links.push(LinkPresets.Guestbook);
+
+	// 我的：动态与相册
+	links.push({
+		name: "我的",
+		url: "#",
+		icon: "material-symbols:person",
+		children: [LinkPresets.Dynamic, LinkPresets.Gallery],
+	});
+
 	// 关于我
 	links.push(LinkPresets.About);
 

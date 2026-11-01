@@ -20,6 +20,6 @@ const showTitle = widgetConfig?.showTitle !== false;
 
 {musicPlayerConfig.showInSidebar !== false && (
 	<WidgetLayout id={`${widgetId}-layout`} class={className} style={style} name={i18n(I18nKey.music)} showTitle={showTitle}>
-		<MusicPlayer id={widgetId} />
+		<MusicPlayer id={widgetId} lyricsOpen={false} />
 	</WidgetLayout>
 )}

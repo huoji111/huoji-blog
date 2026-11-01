@@ -134,38 +134,65 @@ const managerConfigStr = JSON.stringify({
     async function fetchMetingData() {
         if (!config.meting) return;
         var m = config.meting;
-        var apis = [m.api].concat(m.fallbackApis || []);
+        var apis = [m.api].concat(m.fallbackApis || []).filter(Boolean);
+        var sources = [{ type: m.type, id: m.id }];
+        (m.playlistIds || []).forEach(function (id) {
+            if (id) sources.push({ type: 'playlist', id: String(id) });
+        });
+        (m.extraSongs || []).forEach(function (id) {
+            if (id) sources.push({ type: 'song', id: String(id) });
+        });
 
-        for (var i = 0; i < apis.length; i++) {
-            var baseApi = apis[i];
-            if (!baseApi) continue;
-            try {
-                var fetchUrl = baseApi
-                    .replace(':server', m.server)
-                    .replace(':type', m.type)
-                    .replace(':id', m.id)
-                    .replace(':r', Math.random());
-                if (m.auth) fetchUrl += '&auth=' + m.auth;
+        var merged = [];
+        var seen = {};
 
-                var res = await fetch(fetchUrl);
-                if (!res.ok) throw new Error('HTTP ' + res.status);
-                var data = await res.json();
+        for (var si = 0; si < sources.length; si++) {
+            var source = sources[si];
+            var loaded = false;
+            for (var i = 0; i < apis.length; i++) {
+                var baseApi = apis[i];
+                if (!baseApi) continue;
+                try {
+                    var fetchUrl = baseApi
+                        .replace(':server', m.server)
+                        .replace(':type', source.type)
+                        .replace(':id', source.id)
+                        .replace(':r', Math.random());
+                    if (m.auth) fetchUrl += '&auth=' + m.auth;
 
-                if (Array.isArray(data) && data.length > 0) {
-                    state.playlist = data.map(function (item) {
-                        return {
-                            name: item.title || item.name || 'Unknown',
-                            artist: item.author || item.artist || 'Unknown',
-                            url: item.url,
-                            pic: item.pic || item.cover || '',
-                            lrc: item.lrc
-                        };
-                    });
-                    return;
+                    var res = await fetch(fetchUrl);
+                    if (!res.ok) throw new Error('HTTP ' + res.status);
+                    var data = await res.json();
+
+                    if (Array.isArray(data) && data.length > 0) {
+                        data.forEach(function (item) {
+                            var trackUrl = item.url || '';
+                            var key = trackUrl || (item.title || item.name || '') + '|' + (item.author || item.artist || '');
+                            if (seen[key]) return;
+                            seen[key] = true;
+                            merged.push({
+                                name: item.title || item.name || 'Unknown',
+                                artist: item.author || item.artist || 'Unknown',
+                                url: trackUrl,
+                                pic: item.pic || item.cover || '',
+                                lrc: item.lrc
+                            });
+                        });
+                        loaded = true;
+                        break;
+                    }
+                } catch (e) {
+                    console.warn('Meting API failed for ' + source.type + ':' + source.id + ' via ' + baseApi, e);
                 }
-            } catch (e) {
-                console.warn('Meting API failed for ' + baseApi, e);
             }
+            if (!loaded) {
+                console.warn('Meting source skipped: ' + source.type + ':' + source.id);
+            }
+        }
+
+        if (merged.length > 0) {
+            state.playlist = merged;
+            return;
         }
         throw new Error('All Meting APIs failed');
     }

@@ -32,6 +32,12 @@ export type MusicPlayerConfig = {
 		// 歌单/专辑/单曲 ID 或搜索关键词
 		id?: string;
 
+		// 额外合并的歌单 ID（可放多个歌单，如三角洲背景音乐 + 流行歌单）
+		playlistIds?: string[];
+
+		// 额外合并的单曲 ID（用于精确挑选可完整播放的曲目）
+		extraSongs?: string[];
+
 		// 认证 token（可选）
 		auth?: string;
 

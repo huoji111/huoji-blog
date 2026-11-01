@@ -23,5 +23,11 @@ export const profileConfig: ProfileConfig = {
 			url: "https://github.com/huoji111",
 			showName: false,
 		},
+		{
+			name: "邮箱反馈",
+			icon: "material-symbols:mail",
+			url: "mailto:huoji@huoji111.qzz.io",
+			showName: false,
+		},
 	],
 };

@@ -86,12 +86,12 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 			title: "或记的博客",
 			// 主页横幅主标题字体大小
 			titleSize: "4.5rem",
-			// 主页横幅副标题
+			// 主页横幅副标题（全部为古诗词，接口成功时会再追加一首随机诗词）
 			subtitle: [
-				"把读过的、写过的、想明白的，都记在这里。",
-				"慢慢写，认真活。",
-				"有些话，写下来才算数。",
-				"愿每一次记录，都不辜负当时的心境。",
+				"人生若只如初见，何事秋风悲画扇。",
+				"落霞与孤鹜齐飞，秋水共长天一色。",
+				"山有木兮木有枝，心悦君兮君不知。",
+				"此情可待成追忆，只是当时已惘然。",
 			],
 			// 主页横幅副标题字体大小
 			subtitleSize: "1.5rem",
@@ -115,15 +115,22 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 			// 图标支持 Iconify 格式：fa7-brands:github、fa7-solid:envelope、mdi:rss 等
 			links: [
 				{
+					name: "留言",
+					icon: "material-symbols:chat",
+					url: "/guestbook/",
+					showName: true,
+				},
+				{
+					name: "反馈",
+					icon: "material-symbols:mail",
+					url: "mailto:huoji@huoji111.qzz.io",
+					showName: true,
+				},
+				{
 					name: "GitHub",
 					icon: "fa7-brands:github",
 					url: "https://github.com/huoji111",
 					showName: true,
-				},
-				{
-					name: "关于",
-					icon: "material-symbols:person",
-					url: "/about/",
 				},
 			],
 		},
